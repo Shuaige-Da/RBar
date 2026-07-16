@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-        Title="胶囊控制中心"
+        Title="RBar 控制中心"
         Width="1120" Height="760"
         MinWidth="900" MinHeight="600"
         WindowStartupLocation="CenterScreen"
@@ -783,9 +783,9 @@
                                 <Border Width="34" Height="34" CornerRadius="11" Background="#84FFFFFF" BorderBrush="#A8FFFFFF" BorderThickness="1">
                                     <Border Width="23" Height="23" CornerRadius="6" Background="#404040" />
                                 </Border>
-                                <TextBlock Text="胶囊控制中心" FontSize="15" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" />
+                                <TextBlock Text="RBar 控制中心" FontSize="15" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Text="Dynamic Island" FontSize="19" FontWeight="Bold" Margin="0,25,0,0" />
+                            <TextBlock Text="RBar" FontSize="19" FontWeight="Bold" Margin="0,25,0,0" />
                             <TextBlock Text="个性化与反馈" Foreground="{StaticResource MutedTextBrush}" FontSize="12" Margin="0,5,0,0" />
                         </StackPanel>
                         <StackPanel Grid.Row="1">
@@ -796,12 +796,12 @@
                         </StackPanel>
                         <Button Grid.Row="2" Margin="2,8,2,8" Height="48" Foreground="#E5667C"
                                 Background="Transparent" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1.2"
-                                ToolTip="退出胶囊程序" Click="ExitApplicationButton_Click">
+                                ToolTip="退出 RBar" Click="ExitApplicationButton_Click">
                             <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE7E8;" Style="{StaticResource FluentIconTextStyle}"/><TextBlock Text="退出程序" Margin="11,0,0,0" VerticalAlignment="Center"/></StackPanel>
                         </Button>
                         <Border Grid.Row="3" Style="{StaticResource GlassCardStyle}" CornerRadius="18" Padding="12" Margin="2,0,2,2">
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="●  胶囊正在运行" Foreground="#3EBE79" FontSize="12" />
+                                <TextBlock Text="●  RBar 正在运行" Foreground="#3EBE79" FontSize="12" />
                                 <TextBlock x:Name="SidebarVersionText" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,4,0,0" />
                             </StackPanel>
                         </Border>

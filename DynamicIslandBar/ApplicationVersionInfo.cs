@@ -26,7 +26,7 @@ public static class ApplicationVersionInfoProvider
         var assembly = Assembly.GetEntryAssembly() ?? typeof(ApplicationVersionInfoProvider).Assembly;
         var productName = assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product
             ?? assembly.GetName().Name
-            ?? "DynamicIslandBar";
+            ?? ProductIdentity.ProductName;
         var informationalVersion = assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
             .InformationalVersion;

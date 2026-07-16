@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="DynamicIslandBar.csproj" />
-  <Project Path="../DynamicIslandBar.Tests/DynamicIslandBar.Tests.csproj" />
-</Solution>

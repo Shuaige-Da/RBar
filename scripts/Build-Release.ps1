@@ -2,6 +2,7 @@ param(
     [string]$Version = "1.0.0",
     [string]$Configuration = "Release",
     [string]$Runtime = "win-x64",
+    [string]$InnoCompilerPath,
     [switch]$SelfContained,
     [switch]$SkipTests
 )
@@ -10,16 +11,18 @@ $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+$productName = "RBar"
+$legacyProductName = "DynamicIslandBar"
 $projectPath = Join-Path $repoRoot "DynamicIslandBar\DynamicIslandBar.csproj"
 $testProjectPath = Join-Path $repoRoot "DynamicIslandBar.Tests\DynamicIslandBar.Tests.csproj"
 $releaseRoot = Join-Path $repoRoot "artifacts\release"
 $dependencyLabel = if ($SelfContained) { "self-contained" } else { "framework-dependent" }
-$releaseName = "DynamicIslandBar-v$Version-$Runtime-$dependencyLabel"
+$releaseName = "$productName-v$Version-$Runtime-$dependencyLabel"
 $releaseDir = Join-Path $releaseRoot $releaseName
 $publishDir = Join-Path $releaseDir "publish"
 $packageDir = Join-Path $releaseDir "packages"
 $installerDir = Join-Path $releaseDir "installer"
-$installerScript = Join-Path $repoRoot "release\installer\DynamicIslandBar.iss"
+$installerScript = Join-Path $repoRoot "release\installer\RBar.iss"
 
 function Write-Step {
     param([string]$Message)
@@ -42,10 +45,10 @@ if (Test-Path $releaseDir) {
 }
 New-Item -ItemType Directory -Force -Path $publishDir, $packageDir, $installerDir | Out-Null
 
-$running = Get-Process DynamicIslandBar -ErrorAction SilentlyContinue
+$running = Get-Process -Name @($productName, $legacyProductName) -ErrorAction SilentlyContinue
 if ($running) {
     $runningPaths = $running.Path | Where-Object { $_ } | Select-Object -Unique
-    Write-Step "Stopping running DynamicIslandBar processes"
+    Write-Step "Stopping running RBar processes"
     $running | Stop-Process -Force
     Start-Sleep -Milliseconds 500
     foreach ($runningPath in $runningPaths) {
@@ -57,6 +60,38 @@ if ($running) {
                 -Wait
         }
     }
+}
+
+function Find-InnoCompiler {
+    if ($InnoCompilerPath) {
+        if (-not (Test-Path -LiteralPath $InnoCompilerPath -PathType Leaf)) {
+            throw "Inno Setup compiler was not found at: $InnoCompilerPath"
+        }
+
+        return (Resolve-Path -LiteralPath $InnoCompilerPath).Path
+    }
+
+    $command = Get-Command "ISCC.exe" -ErrorAction SilentlyContinue
+    if ($command) {
+        return $command.Source
+    }
+
+    $uninstallKeys = @(
+        "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 6_is1",
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 6_is1",
+        "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 6_is1"
+    )
+    foreach ($key in $uninstallKeys) {
+        $installLocation = (Get-ItemProperty -LiteralPath $key -ErrorAction SilentlyContinue).InstallLocation
+        if ($installLocation) {
+            $candidate = Join-Path $installLocation "ISCC.exe"
+            if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+                return $candidate
+            }
+        }
+    }
+
+    return $null
 }
 
 if (-not $SkipTests) {
@@ -87,11 +122,11 @@ Write-Step "Creating portable package"
 $zipPath = Join-Path $packageDir "$releaseName.zip"
 Compress-Archive -Path (Join-Path $publishDir "*") -DestinationPath $zipPath -Force
 
-$iscc = Get-Command "ISCC.exe" -ErrorAction SilentlyContinue
+$iscc = Find-InnoCompiler
 $installerPath = $null
 if ($iscc) {
     Write-Step "Building Inno Setup installer"
-    & $iscc.Source `
+    & $iscc `
         "/DAppVersion=$Version" `
         "/DSourceDir=$publishDir" `
         "/DOutputDir=$installerDir" `
@@ -101,13 +136,14 @@ if ($iscc) {
         throw "Inno Setup failed with exit code $LASTEXITCODE"
     }
 
-    $installerPath = Join-Path $installerDir "DynamicIslandBar-Setup-v$Version-$Runtime-$dependencyLabel.exe"
+    $installerPath = Join-Path $installerDir "RBar-Setup-v$Version-$Runtime-$dependencyLabel.exe"
 } else {
     Write-Host "Inno Setup compiler (ISCC.exe) was not found; installer exe was skipped." -ForegroundColor Yellow
 }
 
 $manifest = [ordered]@{
-    product = "DynamicIslandBar"
+    product = $productName
+    publisher = "rainwave"
     version = $Version
     runtime = $Runtime
     dependency = $dependencyLabel
@@ -123,8 +159,8 @@ $manifest = [ordered]@{
     } else {
         $null
     }
-    executableSha256 = (Get-FileHash -LiteralPath (Join-Path $publishDir "DynamicIslandBar.exe") -Algorithm SHA256).Hash
-    signatureStatus = (Get-AuthenticodeSignature -LiteralPath (Join-Path $publishDir "DynamicIslandBar.exe")).Status.ToString()
+    executableSha256 = (Get-FileHash -LiteralPath (Join-Path $publishDir "$productName.exe") -Algorithm SHA256).Hash
+    signatureStatus = (Get-AuthenticodeSignature -LiteralPath (Join-Path $publishDir "$productName.exe")).Status.ToString()
 }
 $manifestPath = Join-Path $releaseDir "release-manifest.json"
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -Path $manifestPath -Encoding UTF8

@@ -12,7 +12,7 @@
         Loaded="Window_Loaded"
         PreviewKeyDown="Window_PreviewKeyDown"
         Width="560" Height="420"
-        Title="DynamicIslandBar">
+        Title="RBar">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <local:PercentToScaleConverter x:Key="PercentToScaleConverter"/>

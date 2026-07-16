@@ -1,8 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="Default" />
-  </Configurations>
-  <Project Path="Setup1/Setup1.vdproj" Type="Installer">
-    <Build />
-  </Project>
-</Solution>

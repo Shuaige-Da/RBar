@@ -124,8 +124,7 @@ public static class AppDiagnostics
 {
     private static readonly DateTime ProcessStartedAtUtc = DateTime.UtcNow;
     private static readonly DiagnosticLogStore Store = new(Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "DynamicIslandBar",
+        ProductIdentity.UserDataDirectory,
         "Logs"));
 
     public static string LogDirectory => Store.DirectoryPath;
@@ -157,7 +156,7 @@ public static class AppDiagnostics
         var version = ApplicationVersionInfoProvider.GetCurrent();
         using var process = Process.GetCurrentProcess();
         var builder = new StringBuilder();
-        builder.AppendLine("DynamicIslandBar 诊断报告");
+        builder.AppendLine($"{ProductIdentity.ProductName} 诊断报告");
         builder.AppendLine($"生成时间：{DateTime.Now:yyyy-MM-dd HH:mm:ss zzz}");
         builder.AppendLine($"版本：{version.Version}");
         builder.AppendLine($"运行时：{version.Runtime}");

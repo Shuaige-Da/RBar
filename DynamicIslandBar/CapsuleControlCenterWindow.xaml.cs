@@ -44,7 +44,7 @@ public partial class CapsuleControlCenterWindow : Window
     }
 
     private static readonly Uri DefaultLandscapeUri = new(
-        "pack://application:,,,/DynamicIslandBar;component/Assets/ControlCenter-DefaultLandscape.jpg",
+        "pack://application:,,,/RBar;component/Assets/ControlCenter-DefaultLandscape.jpg",
         UriKind.Absolute);
 
     private static ImageSource? _defaultLandscapeSource;
@@ -648,7 +648,7 @@ public partial class CapsuleControlCenterWindow : Window
             Filter = "胶囊配置文件|*.json",
             DefaultExt = ".json",
             AddExtension = true,
-            FileName = $"DynamicIslandBar-config-{DateTime.Now:yyyyMMdd}.json"
+            FileName = $"RBar-config-{DateTime.Now:yyyyMMdd}.json"
         };
         if (dialog.ShowDialog(this) != true)
         {

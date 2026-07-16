@@ -16,6 +16,7 @@ public static class Program
             return;
         }
 
+        ProductIdentity.MigrateLegacyUserData();
         StartupEnvironment.EnsureWindowsFontEnvironment();
 
         if (!SingleInstanceCoordinator.TryAcquire(out var singleInstance))

@@ -1,31 +1,55 @@
+# IDE and editor state
 .vs/
-.worktrees/
-.codex-backups/
-.tmp-audio-debug/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-# Build artifacts
-**/obj/
+# Build and test output
 **/bin/
+**/obj/
+TestResults/
+coverage/
+coverage.*
+*.trx
+*.coverage
+*.coveragexml
 
 # Release artifacts
 artifacts/
 release/DynamicIslandBar-v*/
+release/RBar-v*/
 *.zip
 *.msi
 *.nupkg
 
-# Visual Studio Installer Projects local output
-Setup1/**/.vs/
-Setup1/**/Debug/
-Setup1/**/Release/
-Setup1/**/*.log
-Setup1/**/setup.exe
-
-# Local temp/debug files
+# Local tools, worktrees and temporary files
+.worktrees/
+.codex-backups/
+.mimocode/
+.tmp-audio-debug/
 Setup2/
 Setup3/
+tools/MediaLyricsProbe/
+docs/previews/
 _dream_query*.py
 tmp_diff.txt
-.mimocode/.cron-lock
-docs/previews/
-docs/superpowers/plans/
+*.log
+*.tmp
+*.bak
+
+# Local environment and signing credentials
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.snk
+*.key
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

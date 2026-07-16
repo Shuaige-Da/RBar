@@ -11,7 +11,8 @@ public readonly record struct StartupRegistrationResult(
 public static class StartupRegistrationService
 {
     internal const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
-    internal const string ValueName = "DynamicIslandBar";
+    internal const string ValueName = ProductIdentity.ProductName;
+    internal const string LegacyValueName = ProductIdentity.LegacyProductName;
 
     public static bool IsEnabled()
     {
@@ -56,10 +57,12 @@ public static class StartupRegistrationService
                     ValueName,
                     BuildCommandLine(executablePath),
                     RegistryValueKind.String);
+                key.DeleteValue(LegacyValueName, throwOnMissingValue: false);
             }
             else
             {
                 key.DeleteValue(ValueName, throwOnMissingValue: false);
+                key.DeleteValue(LegacyValueName, throwOnMissingValue: false);
             }
 
             return new StartupRegistrationResult(

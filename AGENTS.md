@@ -1,5 +1,24 @@
 # Repository Instructions
 
+## Project Overview
+
+- `RBar.slnx` is the repository entry solution.
+- `DynamicIslandBar/` contains the WPF application; its published assembly name is `RBar`.
+- `DynamicIslandBar.Tests/` contains the xUnit test suite.
+- Generated output, local configuration, logs, credentials, and signing keys must never be committed.
+
+## Required Validation
+
+Before considering a code change complete, run the checks appropriate to its scope. For application changes, the default is:
+
+```powershell
+dotnet build .\RBar.slnx -c Release
+dotnet test .\RBar.slnx -c Release --no-build
+git diff --check
+```
+
+Preserve taskbar restoration and backward-compatible configuration behavior. UI changes should be checked at more than one Windows display scale when possible.
+
 ## Git Sync Workflow Preference
 
 When the user asks to "pull" or "sync" code from another remote branch into the current work:

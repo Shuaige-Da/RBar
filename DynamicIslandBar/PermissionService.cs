@@ -80,8 +80,7 @@ namespace DynamicIslandBar
     public static class PermissionService
     {
         private static readonly string PermissionFilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "DynamicIslandBar",
+            ProductIdentity.UserDataDirectory,
             "permissions.json");
 
         private static PermissionState _state = new();

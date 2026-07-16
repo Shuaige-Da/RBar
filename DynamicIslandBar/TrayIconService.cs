@@ -50,7 +50,7 @@ internal sealed class TrayIconService : IDisposable
 
         _notifyIcon = new Forms.NotifyIcon
         {
-            Text = "胶囊控制中心",
+            Text = "RBar 控制中心",
             Icon = _icon,
             ContextMenuStrip = menu,
             Visible = true

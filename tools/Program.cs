@@ -59,7 +59,7 @@ class Program
     static void Main(string[] args)
     {
         string path = args.Length > 0 ? args[0] : "screenshot.png";
-        string processName = args.Length > 1 ? args[1] : "DynamicIslandBar";
+        string processName = args.Length > 1 ? args[1] : "RBar";
 
         var procs = Process.GetProcessesByName(processName);
         if (procs.Length == 0)

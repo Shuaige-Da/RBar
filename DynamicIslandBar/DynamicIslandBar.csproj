@@ -7,9 +7,14 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>DynamicIslandBar</AssemblyName>
+    <AssemblyName>RBar</AssemblyName>
     <RootNamespace>DynamicIslandBar</RootNamespace>
     <StartupObject>DynamicIslandBar.Program</StartupObject>
+    <Product>RBar</Product>
+    <Company>rainwave</Company>
+    <Authors>rainwave</Authors>
+    <Description>RBar transparent capsule desktop companion for Windows 11.</Description>
+    <Copyright>Copyright © 2026 rainwave</Copyright>
     <ApplicationIcon>Assets\UI-Win-AppIcon.ico</ApplicationIcon>
     <SatelliteResourceLanguages>zh-Hans;zh-Hant;en</SatelliteResourceLanguages>
   </PropertyGroup>
@@ -29,6 +34,12 @@
 
   <ItemGroup>
     <Resource Include="Assets\ControlCenter-DefaultLandscape.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Link="LICENSE" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\README.md" Link="README.md" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\THIRD-PARTY-NOTICES.md" Link="THIRD-PARTY-NOTICES.md" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

@@ -358,8 +358,7 @@ public static class CapsuleConfigMutator
 public static class CapsuleConfigService
 {
     private static readonly string ConfigFilePath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "DynamicIslandBar",
+        ProductIdentity.UserDataDirectory,
         "capsule-config.json");
     private static readonly string BackupFilePath = ConfigFilePath + ".bak";
 

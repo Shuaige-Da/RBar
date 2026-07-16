@@ -501,7 +501,7 @@ namespace DynamicIslandBar
                 var dpi = VisualTreeHelper.GetDpi(this);
                 builder.AppendLine($"screen={screenWidth}x{screenHeight} dips={screenWidthDips}x{screenHeightDips} dpi={dpi.DpiScaleX}x{dpi.DpiScaleY}");
                 builder.AppendLine($"window Left={Left} Top={Top} Width={Width} Height={Height}");
-                var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "DynamicIslandBar-layout.txt");
+                var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "RBar-layout.txt");
                 File.WriteAllText(path, builder.ToString());
 
                 AppendElementDiagnostics(builder, nameof(CapsuleGrid), CapsuleGrid);
@@ -2162,13 +2162,12 @@ namespace DynamicIslandBar
 
         private static bool IsSelfWindow(WindowManager.WindowInfo window)
         {
-            if (window.ProcessName.Equals("DynamicIslandBar", StringComparison.OrdinalIgnoreCase))
+            if (ProductIdentity.IsOwnProcessName(window.ProcessName))
             {
                 return true;
             }
 
-            return !string.IsNullOrWhiteSpace(window.ExecutablePath)
-                && window.ExecutablePath.EndsWith("DynamicIslandBar.exe", StringComparison.OrdinalIgnoreCase);
+            return ProductIdentity.IsOwnExecutablePath(window.ExecutablePath);
         }
 
         private static string NormalizeAppId(string? executablePath, string processName)

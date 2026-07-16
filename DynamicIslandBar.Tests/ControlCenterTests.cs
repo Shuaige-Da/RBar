@@ -128,7 +128,7 @@ public class ControlCenterTests
     public void ApplicationVersionInfo_FormatsShareableEnvironmentText()
     {
         var info = new ApplicationVersionInfo(
-            "DynamicIslandBar",
+            "RBar",
             "1.2.3",
             ".NET 10",
             "Windows",
@@ -136,7 +136,7 @@ public class ControlCenterTests
 
         var text = info.ToClipboardText();
 
-        Assert.Contains("DynamicIslandBar 1.2.3", text);
+        Assert.Contains("RBar 1.2.3", text);
         Assert.Contains("运行时：.NET 10", text);
         Assert.Contains("系统：Windows", text);
         Assert.Contains("架构：X64", text);
@@ -146,14 +146,14 @@ public class ControlCenterTests
     public void StartupRegistration_BuildsQuotedExecutableCommand()
     {
         var command = StartupRegistrationService.BuildCommandLine(
-            @"C:\Program Files\Dynamic Island\DynamicIslandBar.exe");
+            @"C:\Program Files\RBar\RBar.exe");
 
         Assert.Equal(
-            "\"C:\\Program Files\\Dynamic Island\\DynamicIslandBar.exe\"",
+            "\"C:\\Program Files\\RBar\\RBar.exe\"",
             command);
         Assert.Equal(
-            "\"C:\\Apps\\DynamicIslandBar.exe\"",
-            StartupRegistrationService.BuildCommandLine("\"C:\\Apps\\DynamicIslandBar.exe\""));
+            "\"C:\\Apps\\RBar.exe\"",
+            StartupRegistrationService.BuildCommandLine("\"C:\\Apps\\RBar.exe\""));
     }
 
     [Fact]
